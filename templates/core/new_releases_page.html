@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	{% include 'core/meta_data.html' with description="New Releases Essiniya" %}
+	<title>New Releases | Essiniya</title>
+
+	{% include 'libraries/jquery.html' %}
+	{% include 'libraries/bootstrap.html' %}
+	{% include 'libraries/material_icons.html' %}
+</head>
+<body>
+	{% include 'core/header.html' %}
+	<main class='mt-5 mb-lg-5 pt-lg-5 pb-lg-5'>
+		<h2 class="text-center">New Releases</h2>
+		<div class="container-fluid">
+			<div class="row">
+			{% for item in items %}
+				<div class="col-lg-4 col-md-6 col-sm-6 mt-5 mb-5">
+					{% include 'core/item_mini_container.html' with instance=item %}
+				</div>
+			{% endfor %}
+			</div>
+		</div>
+	</main>
+	{% include 'core/footer.html' %}
+</body>
+</html>

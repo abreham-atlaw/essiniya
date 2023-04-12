@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+{% load static %}
+{% load wagtailcore_tags %}
+<html lang="en">
+	<head>
+		{% include 'core/meta_data.html' with description="Home page of Essiniya" %}
+		<title>Home | Essiniya</title>
+
+		{% include 'libraries/jquery.html' %}
+		{% include 'libraries/bootstrap.html' %}
+		{% include 'libraries/material_icons.html' %}
+		{% include 'libraries/slick.html' %}
+	</head>
+	<body>
+		<header class="position-absolute vw-100" style="top:0; z-index:2000">
+			<nav class="navbar navbar-expand-lg navbar-dark bg-transparent">
+				<a class="navbar-brand" href="/" style="width:12em"><img src="{% static 'core/logo_landscape.png' %}" class="w-100"></a>
+				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+					<span class="navbar-toggler-icon"></span>
+				</button>
+
+				<div class="collapse navbar-collapse mb-auto" id="navbarSupportedContent">
+					<div class="ml-auto mb-auto">
+						<div class="ml-auto mb-auto d-lg-flex text-center">
+						{% if cart_items_length %}	
+							<div class="d-flex mr-5">
+								<div class="mr-auto">
+									<span class="badge badge-pill badge-warning mb-0">{{ cart_items_length }}</span>
+									<a href="" role="button" class="btn bg-transparent mt-0 p-0 d-block"><i class="material-icons text-light">shopping_cart</i></a>
+								</div>
+							</div>
+						{% endif %}
+							<form class="form-inline my-2 my-lg-0 ml-auto mr-5">
+								<input class="form-control mr-sm-2 border bg-transparent border-light text-light" type="search" placeholder="Search" aria-label="Search">
+								<button class="btn p-0" type="submit"><i class="material-icons text-light m-auto d-block" style="font-size:3em;">search</i></button>
+							</form>
+							<ul class="navbar-nav ml-auto">
+							{% for tab in header_tabs %}
+								<li class="nav-item">
+									<a href="{{ tab.url }}" class="nav-link text-light text-left">{{ tab.name }}</a>
+								</li>
+							{% endfor %}
+						</ul>
+						</div>
+						
+					</div> 
+				</div>
+			</nav>
+		</header>
+		<main class="border-0">
+			<div id="slideshow" class="carousel slide" data-ride="carousel">
+				<ol class="carousel-indicators">
+				{% for slide in page.slideshows %}
+    				<li data-target="#slideshow" data-slide-to="{{ forloop.counter0 }}"{% if forloop.counter0 == 0 %} class="active"{% endif %}></li>
+    			{% endfor %}
+				</ol>
+				
+  				<div class="carousel-inner">
+				{% for slide in page.slideshows %}
+					{% if forloop.counter0 == 0 %}
+	    				{% include_block slide  with active=True %}
+					{% else %}
+						{% include_block slide %}
+					{% endif %}
+				{% endfor %}
+				</div>
+				<a class="carousel-control-prev" href="#slideshow" role="button" data-slide="prev">
+				    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    				<span class="sr-only">Previous</span>
+				</a>
+				<a class="carousel-control-next" href="#slideshow" role="button" data-slide="next">
+					<span class="carousel-control-next-icon" aria-hidden="true"></span>
+				    <span class="sr-only">Next</span>
+				</a>
+			</div>
+			<div class="mt-5 p-5">
+				<h2>New Releases</h2>
+				<div class="mt-5">
+					<div id="new-releases-slideshow">
+					{% for item in new_releases %}
+						<div class="p-5">
+							{% include 'core/item_mini_container.html' with instance=item %}
+						</div>
+					{% endfor %}
+					</div>
+				</div>
+				
+			</div>
+			<div class="mt-5 bg-dark p-5">
+				<h2 class="text-light">Shop by Category</h2>
+				<div class="mt-5">
+					<div id="categories-slideshow">
+					{% for category in categories %}
+						<div class="p-5 ">
+							<a class="m-auto d-block link pt-3 pb-3 bg-light" href="{% if category.is_parent %}/categories/?parent_category={{category.id}}{% else%}/category/{{ category.id }}/items/{% endif %}" style="width:98%;">
+								<img src="{{ category.image.url }}" class="w-75 d-block m-auto">
+								<span class="d-block text-center mt-3">{{ category.name }}</span>
+							</a>
+						</div>
+					{% endfor %}
+					</div>
+				</div>
+			</div>
+			<div class="mt-5 p-5">
+				<div id="items-slideshow">
+				{% for item in items %}
+					<div class="p-5">
+						{% include 'core/item_mini_container.html' with instance=item %}
+					</div>
+				{% endfor %}
+				</div>
+			</div>
+		</main>
+		<script>
+			$(document).ready(function(){
+				$('#new-releases-slideshow').slick({
+					slidesToShow: 3,
+					slidesToScroll: 1,
+					arrows: true,
+					infinite:true,
+					autoplay: true,
+					autoplaySpeed: 5000,
+				});
+
+				$('#categories-slideshow').slick({
+					slidesToShow: 3,
+					slidesToScroll: 1,
+					infinite:true,
+					autoplay: true,
+					autoplaySpeed: 5000,
+				});
+
+				$('#items-slideshow').slick({
+					slidesToShow: 4,
+					slidesToScroll: 1,
+					arrows: true,
+					infinite:true,
+					autoplay: true,
+					autoplaySpeed: 5000,
+				});
+			})
+		</script>
+	{% include 'core/footer.html' %}
+	</body>
+</html>

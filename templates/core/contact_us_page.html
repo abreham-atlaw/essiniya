@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	{% include 'core/meta_data.html' with description="Contact Us Essiniya" %}
+	<title>Contact Us | Essiniya</title>
+
+	{% include 'libraries/jquery.html' %}
+	{% include 'libraries/bootstrap.html' %}
+	{% include 'libraries/material_icons.html' %}
+</head>
+<body>
+	{% include 'core/header.html' %}
+	{% if request.GET.success == "True" %}
+	<div class="alert alert-success alert-dismissible fade show ml-4 mt-5 mb-auto " role="alert">
+		<div class="d-flex">
+			<i class="material-icons mt-auto mb-auto">done</i>
+			<span class="mt-auto mb-auto ml-3">
+				Message Submitted.
+			</span>
+		</div>
+		<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+			<span aria-hidden="true">&times;</span>
+		</button>
+	</div>
+	{% endif %}
+	<main class='mt-5 mb-lg-5 pt-lg-5 pb-lg-5'>
+		
+		<h2 class="text-center">Contact Us</h2>
+		<div class="container-fluid mt-5 pt-5">
+			<div class="row">
+				<div class="col-lg-3 col-md-11 col-sm-11 m-auto border border-dark p-0 pt-4 mb-lg-auto mb-md-5 mb-sm-5">
+					<div class="">
+						<h3 class="text-center">Contact Informations</h3>
+						<div class="container-fluid mt-5">
+						{% for contact_info in contact_informations %}
+							<div class="row m-1">
+								<span class="col-4 m-auto">{{ contact_info.key }}</span>
+								<span class="col-6 m-auto">
+									<a {% if contact_info.link %}href="{{ contact_info.link }}" {% endif %}class="d-flex link">{{ contact_info.value }}</a>
+								</span>
+							</div>
+						{% endfor %}
+						</div>
+					</div>
+					<div class="mt-4 d-flex bg-dark p-2 w-100" >
+						<div class="d-flex m-auto">
+						{% for social_medium in social_media %}
+							<a href="{{ social_medium.url }}" role="button" class="btn p-0 mr-2 bg-dark overflow-hidden rounded-circle" style="width:3em;">
+								<img src="{{ social_medium.image.url }}" style="width:3em" >
+							</a>
+						{% endfor %}
+						</div>
+					</div>
+				</div>
+				<div class="col-lg-5 col-md-12 col-sm-12 m-auto">
+					<h3>Pick-up Locations</h3>
+					<div id="map_container" style="height:50em;	">
+
+					</div>
+				</div>
+			</div>
+		</div>
+	</main>
+	{% include 'libraries/leaflet.html' %}
+	<script type='text/javascript'>
+		$(document).ready(function(){
+			var map = L.map('map_container').setView([{{ center_location.latitude }},{{ center_location.longitude }}], 12);
+
+			L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+				attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+			}).addTo(map);
+
+		{% for location in locations %}
+			L.marker([{{ location.latitude }}, {{ location.longitude}}]).addTo(map)
+				.bindPopup('{{ location.description }}');
+		{% endfor %}
+		});
+	</script>
+	<style>
+		.child-block>*{
+			display:block !important;
+			width:100% !important;
+		}
+		.input-container>*{
+			border:none;
+			padding:1em;
+		}
+	</style>
+	<footer class="bg-dark p-5">
+		<div class="container-fluid">
+			<h2 class="text-center text-light">Contact Us</h2>
+			<form action="" method="POST" class="mt-5 p-5">
+				{% csrf_token %}
+				<div class="row">
+					<div class="col-lg-4 col-md-12 col-sm-12">
+					{% for field in form %}
+					{% if forloop.counter0 < 3 %}
+						<label class="d-block mt-5">
+							<span class="text-light">{{ field.label }}</span>
+							<div class="child-block mt-2 input-container">{{ field }}</div>
+							<span class="text-danger">{{ field.errors }}</span>
+						</label>
+					{% endif %}
+					{% endfor %}
+					</div>
+					<div class="col-lg-7 col-md-12 col-sm-12 ml-lg-auto">
+						<label class="d-block mt-5">
+							<span class="text-light">{{ form.subject.label }}</span>
+							<div class="child-block mt-2 input-container">{{ form.subject }}</div>
+							<span class="text-danger">{{ form.subject.errors }}</span>
+						</label>
+						<label class="d-block mt-5">
+							<span class="text-light">{{ form.message.label }}</span>
+							<div class="child-block mt-2 input-container">{{ form.message }}</div>
+							<span class="text-danger">{{ form.subject.errors }}</span>
+						</label>
+					</div>
+				</div>
+				<div class="d-flex mt-5">
+					<input type="submit" role="button" class="btn btn-warning ml-auto" value="SUBMIT">
+				</div>
+			</form>
+		</div>
+	</footer>
+</body>
+</html>

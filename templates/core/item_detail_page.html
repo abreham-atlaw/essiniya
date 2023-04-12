@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	{% include 'core/meta_data.html' with description="Essiniya | {{ item.name }}: {{ item.description }}" %}
+	<title>{{ item.name }} | Essiniya</title>
+
+	{% include 'libraries/jquery.html' %}
+	{% include 'libraries/bootstrap.html' %}
+	{% include 'libraries/material_icons.html' %}
+	{% include 'libraries/slick.html' %}
+</head>
+<body>
+	{% include 'core/header.html' %}
+	<main class="mt-5 mb-5">
+		<div class="container-fluid">
+			<div class="row flex-lg-row flex-md-column-reverse flex-sm-column-reverse">
+				<div class="col-lg-4 col-md-10 col-sm-10 m-auto">
+					<div id="image-slideshow-for">
+					{% for image in item.get_images %}
+						<div><img src="{{ image.url }}" class="w-100"></div>
+					{% endfor %}
+					</div>
+					<div id="image-slideshow-nav" class="mt-5">
+					{% for image in item.get_images %}
+						<div class="p-1 "><img src="{{ image.url }}" class="m-auto border border-primary" style="width:10em"></div>
+					{% endfor %}
+					</div>
+				</div>
+				<div class="col-lg-5 col-md-11 col-sm-12 ml-auto mr-auto mb-lg-auto mt-5 p-5 mb-md-5 mb-sm-5 border border-primary">
+					<form action="" method="POST" class="needs-validation" novalidate>
+						{% csrf_token %}
+						<h2>{{ item.name }}</h2>
+						<div class="d-flex mt-3">
+							{% if request.GET.added == "True" %}
+							<div class="alert alert-success alert-dismissible fade show ml-4 mt-auto mb-auto " role="alert">
+								<div class="d-flex">
+									<i class="material-icons mt-auto mb-auto">done</i>
+									<span class="mt-auto mb-auto ml-3">
+										Item Added to Card. <a href="/cart/" class="link font-weight-bold">See Cart</a> or <a href="/" class="link font-weight-bold">Explore More</a>.
+									</span>
+								</div>
+								<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+									<span aria-hidden="true">&times;</span>
+								</button>
+							</div>
+							{% else %}
+							<span class="font-italic mt-auto mb-auto">{{ item.get_price }}</span>
+								{% if request.GET.order %}
+								<button type="submit" role="button" class="btn btn-info d-flex mt-auto mb-auto ml-5">
+									<i class="material-icons mt-auto mb-auto text-light">done</i>
+									<span class="mt-auto mb-auto">
+										Save
+									</span>
+								</button>
+								{% else %}
+								<button type="submit" role="button" class="btn btn-primary d-flex mt-auto mb-auto ml-5">
+									<i class="material-icons mt-auto mb-auto text-light">shopping_cart</i>
+									<span class="mt-auto mb-auto">
+										Add to Cart
+									</span>
+								</button>
+								{% endif %}
+							{% endif %}
+						</div>
+						{% if request.GET.added != "True" %}
+						<div class="mt-5">
+							{% for field in form %}
+								<div class="row mb-4">
+									<span class="col-2 mt-auto mb-auto">{{ field.label }}</span>
+									<div class="col-10 d-flex">
+										<span class="mt-auto mb-auto">{{ field }}</span>
+										<span class="text-danger mt-auto mb-auto">{{ field.errors}}</span>
+									</div>
+								</div>	
+							{% endfor %}
+						</div>
+						{% endif %}
+						<div class="mt-5">
+							{{ item.description }}
+						</div>
+					</form>
+					
+				</div>
+				
+			</div>
+			
+		</div>
+	</main>
+	<script>
+		$(document).ready(function (){
+			$('#image-slideshow-for').slick({
+				slidesToShow: 1,
+				slidesToScroll: 1,
+				arrows: true,
+				fade: true,
+				asNavFor: '#image-slideshow-nav',
+				infinite:false
+			});
+
+			$('#image-slideshow-nav').slick({
+				slidesToShow: {% if item.get_images|length > 5 %}5{% else %}{{ item.get_images|length }}{% endif %},
+				slidesToScroll: 1,
+				asNavFor: '#image-slideshow-for',
+				dots: false,
+				arrows: true,
+				centerMode: true,
+				focusOnSelect: true,
+				infinite: false
+			});
+		});
+
+	</script>
+	{% include 'core/footer.html' %}
+</body>
+</html>

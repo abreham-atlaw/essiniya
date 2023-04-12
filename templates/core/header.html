@@ -1,0 +1,40 @@
+{% load static %}
+<link rel="shortcut icon" type="image/png" href='{% static "core/favicon.ico" %}'/>
+
+<header class="shadow-lg">
+	<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+		<a class="navbar-brand" href="/" style="width:12em"><img src="{% static 'core/logo_landscape.png' %}" class="w-100"></a>
+		
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+
+		<div class="collapse navbar-collapse" id="navbarSupportedContent">
+			<div class="ml-auto">
+				<div class="ml-auto d-lg-flex text-center">
+				{% if cart_items_length %}	
+					<div class="d-flex">
+						<div class="mr-auto">
+							<span class="badge badge-pill badge-warning mb-0">{{ cart_items_length }}</span>
+							<a href="/cart/" role="button" class="btn bg-transparent mt-0 p-0 d-block"><i class="material-icons text-light">shopping_cart</i></a>
+						</div>
+					</div>
+				{% endif %}
+					<form class="form-inline my-2 my-lg-0 ml-auto mr-5">
+						<input class="form-control mr-sm-2 border bg-transparent border-light text-light" type="search" placeholder="Search" aria-label="Search">
+						<button class="btn p-0" type="submit"><i class="material-icons text-light m-auto d-block" style="font-size:3em;">search</i></button>
+					  </form>
+				</div>
+				<div class="ml-auto mt-lg-5">
+					<ul class="navbar-nav ml-auto">
+					{% for tab in header_tabs %}
+						<li class="nav-item">
+							<a href="{{ tab.url }}" class="nav-link text-light">{{ tab.name }}</a>
+						</li>
+					{% endfor %}
+					</ul>
+				</div>
+			</div> 
+		</div>
+	</nav>
+</header>

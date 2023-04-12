@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	{% include 'core/meta_data.html' with description="Categories Essiniya" %}
+	<title>{% if parent_category %}{{ parent_category.name }}{% else %}Categories{% endif %} | Essiniya</title>
+
+	{% include 'libraries/jquery.html' %}
+	{% include 'libraries/bootstrap.html' %}
+	{% include 'libraries/material_icons.html' %}
+</head>
+<body>
+	{% include 'core/header.html' %}
+	<main class='mt-5 mb-lg-5 pt-lg-5 pb-lg-5'>
+		<h2 class="text-center">{% if parent_category %}{{ parent_category.name }}{% else %}Categories{% endif %}</h2>
+		<div class="container-fluid mt-5 mb-5">
+			<div class="col-lg-8 col-md-12 col-sm-12 d-flex m-auto" style="flex-wrap: wrap;">
+			{% for category in categories %} 
+				<div class="col-lg-3 col-md-6 col-sm-6 p-0 m-0">
+					<a class="m-auto d-block link pt-3 pb-3" href="{% if category.is_parent %}/categories/?parent_category={{category.id}}{% else%}/category/{{ category.id }}/items/{% endif %}" style="background-color: #dddddd; width:98%;">
+						<img src="{{ category.image.url }}" class="w-75 d-block m-auto">
+						<span class="d-block text-center mt-3">{{ category.name }}</span>
+					</a>
+				</div>
+			{% endfor %}
+			</div>
+		</div>
+	</main>
+	{% include 'core/footer.html' %}
+</body>
+</html>

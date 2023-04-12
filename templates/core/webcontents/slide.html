@@ -1,0 +1,13 @@
+{% load wagtailimages_tags %}
+{% load mathfilters %}
+<div class="carousel-item{% if active %} active{% endif %}">
+	{% image value.image original as image %}
+	<div class="d-flex" style="background-image:url({{ image.url }}); background-size:100%; height:{{ image.height|mul:100|div:image.width|sub:1 }}vw;">
+		<div class="w-50 m-auto">
+			<h1 class="text-light w-50">
+				{{ value.text }}
+			</h1>
+			<a role="button" class="btn btn-danger mt-4" href="{{ value.url }}">{{ value.button }}</a>
+		</div>
+	</div>
+</div>

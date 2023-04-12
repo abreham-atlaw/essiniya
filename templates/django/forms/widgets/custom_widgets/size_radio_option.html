@@ -1,0 +1,11 @@
+<label {% if widget.attrs.id %} for="{{ widget.attrs.id }}"{% endif %}  class="m-0">
+	<input class="d-none size" type="{{ widget.type }}" name="{{ widget.name }}"{% if widget.value != None %} value="{{ widget.value|stringformat:'s' }}"{% endif %}{% include "django/forms/widgets/attrs.html" %}>
+	<div class="border border-primary text-light bg-primary p-2 text-center" style="min-width:3em; font-size: small;" >
+		{{ widget.size.value }}
+	</div>
+</label>
+<style>
+	input.size:checked ~ div{
+		background-color: grey !important;
+	}
+</style>

@@ -1,0 +1,108 @@
+{% load static %}
+<style>
+	html,body{
+					height:100%;
+					position:relative;
+					display:flex;
+					flex-direction:column;
+	}
+	body header{
+					flex-shrink:0;
+					flex-grow:0;
+	}
+	body main{
+					display:flex;
+					flex-direction:column;
+					flex-grow:1;
+					flex-shrink:0;
+	}
+	footer{
+					flex-shrink:0;
+					width:100%;
+					display:flex;
+					flex-direction:column;
+	}
+	@media only screen and (max-device-width: 700px){ 
+					html,body{
+									height:100%;
+									margin:0;
+									width:100%;
+					}
+					body{
+									display:flex;
+									flex-direction:column;
+					}
+					body header{
+									flex-shrink:0;
+					}
+					body main{
+									flex:1 0 auto;
+					}
+					footer{
+									flex-shrink:0;
+					}
+	}
+	@media only screen and (min-device-width: 480px) and (max-device-width: 800px) and (orientation: landscape){
+					html,body{
+									height:100%;
+									margin:0;
+									width:100%;
+					}
+					body{
+									display:flex;
+									flex-direction:column;
+					}
+					body header{
+									flex-shrink:0;
+					}
+					body main{
+									flex:1 0 auto;
+					}
+					footer{
+									flex-shrink:0;
+					}
+	}
+
+
+</style>
+<footer class="shadow bg-dark p-5">
+	<div class="container-fluid p-lg-5">
+		<div class="row">
+			<ul class="col-3 flex-column  mt-auto mb-auto">
+			{% for link in footer_tabs %}
+				<li class="nav-item" style="list-style: none;">
+					<a class="nav-link text-light" href="{{ link.url }}">{{ link.name }}</a>
+				</li>
+			{% endfor %}
+			</ul>
+		
+			<div class="col-lg-2 col-md-3 col-sm-3 m-auto">
+				<a class="d-flex w-75 m-auto" href="/">
+					<img src="{% static 'core/logo_portrait.png' %}" class="w-100">
+				</a>
+			</div>
+				
+			<div class="col-3 mt-auto mb-auto d-flex">
+				<div class="ml-auto">
+					<h3 class="text-light">Contact Us</h3>
+					<div class="mt-1">
+					{% for contact_info in contact_informations %}
+						<a {% if contact_info.link %}href="{{ contact_info.link }}" {% endif %}class="d-flex text-light link">{{ contact_info.value }}</a>
+					{% endfor %}
+						<a href="/contact-us/" class="text-light link">Pick-up Locations</a>
+					</div>
+					<div class="container mt-3">
+						<div class="d-flex">
+						{% for social_medium in social_media %}
+							<a href="{{ social_medium.url }}" role="button" class="btn p-0 mr-2" style="width:3em;">
+								<img src="{{ social_medium.image.url }}" style="width:3em">
+							</a>
+						{% endfor %}
+						</div>
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</div>
+</footer>

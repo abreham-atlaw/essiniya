@@ -1,0 +1,31 @@
+{% load static %}
+<ul class="navbar-nav bg-gradient-dark sidebar sidebar-dark accordion" id="accordionSidebar">
+	<!-- Sidebar - Brand -->
+	<a class="sidebar-brand d-flex align-items-center justify-content-center mt-5 mb-5" href="index.html">
+    	<div class="sidebar-brand-icon">
+        	<img class="w-100" src="{% static 'core/logo_landscape.png' %}">
+    	</div>
+    </a>
+
+    <!-- Divider -->
+    <hr class="sidebar-divider my-0">
+
+    <!-- Nav Item - Dashboard -->
+{% for tab in tabs %}	   
+	<li class="nav-item{% if current_tab == tab.name %} active{% endif %}">
+   		<a class="nav-link" href="{{ tab.url }}">
+       		<i class="fas fa-fw {{ tab.fa_icon }}"></i>
+       		<span>{{ tab.name }}</span>
+		</a>
+	</li>
+{% endfor %}
+
+      <!-- Divider -->
+      <hr class="sidebar-divider d-none d-md-block">
+
+      <!-- Sidebar Toggler (Sidebar) -->
+      <div class="text-center d-none d-md-inline">
+        <button class="rounded-circle border-0" id="sidebarToggle"></button>
+      </div>
+
+    </ul>

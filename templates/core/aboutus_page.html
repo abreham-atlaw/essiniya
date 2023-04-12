@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+{% load mathfilters %}
+{% load wagtailcore_tags %}
+<html lang="en">
+<head>
+	{% include 'core/meta_data.html' with description="About Essiniya" %}
+	<title>About Us | Essiniya</title>
+
+	{% include 'libraries/jquery.html' %}
+	{% include 'libraries/bootstrap.html' %}
+	{% include 'libraries/material_icons.html' %}
+</head>
+<body>
+	{% include 'core/header.html' %}
+	<main>
+		<div>
+			<style>
+				.bg-image {
+					-webkit-filter: blur(3px) brightness(65%) contrast(93%) saturate(78%);
+  					filter: blur(3px) brightness(65%) contrast(93%) saturate(78%);
+				  }
+			</style>
+			<div class="position-relative d-flex" style="height:{{ page.background.height|mul:100|div:page.background.width|sub:1 }}vw;">
+				<img src="{{ page.background.url  }}" class="w-100 bg-image position-absolute">
+				<h1 class="m-auto text-center text-light" style="z-index:1; font-size:300%;">About Us</h1>
+			</div>
+			<div class="mt-5 p-5">
+				<h2 class="text-center">WHO WE ARE</h2>
+				<div class="row d-flex mt-5">
+					<div class="col-lg-6 col-md-12 col-sm-12 d-flex">
+						<img src="{{ page.who_we_are_image.url }}" class="w-50 m-auto">
+					</div>
+					<div class="col-lg-4 col-md-12 col-sm-12 d-flex m-auto">
+						{{ page.who_we_are_text|richtext }}
+					</div>
+				</div>
+			</div>
+			<div class="mt-5 p-5 bg-primary">
+				<h2 class="text-center text-light">Our Services</h2>
+				<div class="row d-flex mt-5">
+					<div class="col-lg-4 col-md-12 col-sm-12 d-flex m-auto text-light">
+						{{ page.services_text|richtext }}
+					</div>
+					<div class="col-lg-6 col-md-12 col-sm-12 d-flex">
+						<img src="{{ page.services_image.url }}" class="w-50 m-auto">
+					</div>
+				</div>
+			</div>
+			<div class="mt-5 p-5">
+				<h2 class="text-center">Still Have Questions?</h2>
+				<div class="text-center mt-3">If you still have more question don't hesitate to contact us.</div>
+				<div class="d-flex mt-5">
+					<a class="btn btn-primary m-auto" role="button" href="/contact-us/">Contact Us</a>
+				</div>
+			</div>
+		</div>
+	</main>
+	{% include 'core/footer.html' %}
+</body>
+</html>

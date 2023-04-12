@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+{% load mathfilters %}
+{% load wagtailcore_tags %}
+<html lang="en">
+<head>
+	{% include 'core/meta_data.html' with description="Cart Essiniya" %}
+	<title>Cart | Essiniya</title>
+
+	{% include 'libraries/jquery.html' %}
+	{% include 'libraries/bootstrap.html' %}
+	{% include 'libraries/material_icons.html' %}
+</head>
+<body>
+	{% include 'core/header.html' %}
+	<main class="m-5">
+		<div class="col-lg-8 m-auto col-md-12 col-sm-12">
+			<div class="container-fluid">
+				<div class="row">
+					<div class="col-lg-6 col-md-12 col-sm-12">
+						<h2 class="text-center">Cart</h2>
+						<div class="mt-5">
+						{% for order in cart.get_orders %}
+							<div class="card mb-3 mr-auto ml-auto" style="max-width: 540px;">
+								<div class="row no-gutters">
+									<div class="col-md-4">
+										<img src="{{ order.item.cover_image.url }}" class="card-img" alt="{{ order.item.name }} cover image">
+									  </div>
+									<div class="col-md-8">
+										<div class="card-body pb-0 pt-1">
+											<h5 class="card-title">{{ order.item.name }}</h5>
+											<div class="d-flex" style="flex-wrap: wrap;">
+												<p class="card-text col-6 p-0">Color: {{ order.color.name }}</p>
+												<p class="card-text col-6 p-0">Size: {{ order.size.value }}</p>
+												<p class="card-text col-6 p-0">Quantitiy: {{ order.quantity }}</p>
+												<p class="cart-text col-6 p-0">Price: {{ order.item.price }}</p>
+												<p class="cart-text">Total Price: {{ order.get_price }}</p>
+											</div>
+											<div class="d-flex">
+												<a href="/item/{{ order.item.id }}/?order={{ order.id }}" role="button" class="btn btn-success mt-auto mb-auto mr-3">Edit</a>
+												<a href="/cart/?delete={{ order.id }}" role="button" class="btn btn-danger  mt-auto mb-auto">Remove</a>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						{% endfor %}
+						{% if cart.get_orders|length == 0 %}
+							<p class="text-center">Your Cart is Empty. <a href="/new-releases/" class="link">Shop Now</a></p>
+						{% endif %}
+						</div>
+					</div>
+					<div class="col-lg-6 col-md-12 col-sm-12 d-flex" >
+						<div class="mt-auto mb-auto w-100 text-center">
+							<div class="card text-center">
+								<div class="card-header">
+								  <h2>Summary</h2>
+								</div>
+								<div class="card-body">
+									<p class="cart-text">Number of Items: {{ cart.get_orders|length }}</p>
+									<p class="card-text ">Total Price: {{ cart.get_total_price }}</p>
+									<a href="/checkout/" class="btn btn-warning">PROCEED TO CHECKOUT</a>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</main>
+	{% include 'core/footer.html' %}
+</body>
+</html>

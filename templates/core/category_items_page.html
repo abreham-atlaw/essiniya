@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	{% include 'core/meta_data.html' with description="Categories Essiniya" %}
+	<title>Categories | Essiniya</title>
+
+	{% include 'libraries/jquery.html' %}
+	{% include 'libraries/bootstrap.html' %}
+	{% include 'libraries/material_icons.html' %}
+</head>
+<body>
+	{% include 'core/header.html' %}
+	<main class="mt-5 mb-5 p-lg-5">
+		<h2 class="text-center">{{ category.name }}</h2>
+		<div class="container-fluid mt-5">
+			<div class="row">
+			{% for item in items %}
+				<div class="col-lg-3 col-md-6 col col-sm-6 ml-auto mr-auto mb-5">
+					{% include 'core/item_mini_container.html' with instance=item %}
+				</div>
+			{% endfor %}
+			</div>
+		
+		{% if is_paginated %}
+  			<div class="clearfix mt-5">
+    		{% if page_obj.has_previous %}
+      			<a role="button" class='btn btn-primary float-left' href="?page={{ page_obj.previous_page_number }}">Previous</a>
+			{% endif %}
+			
+			{% if page_obj.has_next %}
+      			<a role="button" class="btn btn-primary float-right" href="?page={{ page_obj.next_page_number }}">Next</a>
+    		{% endif %}
+			</div>
+			{% endif %}
+		</div>
+	</main>
+	{% include 'core/footer.html' %}
+</body>
+</html>

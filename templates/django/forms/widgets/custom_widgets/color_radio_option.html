@@ -1,0 +1,11 @@
+<label {% if widget.attrs.id %} for="{{ widget.attrs.id }}"{% endif %} class="mb-0 mr-1 ml-1">
+	<input class="d-none color" type="radio" name="{{ widget.name }}"{% if widget.value != None %} value="{{ widget.value|stringformat:'s' }}"{% endif %}{% include "django/forms/widgets/attrs.html" %}>
+	<div class="border border-primary d-flex" style="width: 2.5em; height: 2.5em; background-color:{{ widget.color.hex_value }}">
+		<i class="material-icons invisible text-light m-auto" style="font-size: 1.5em;">done</i>
+	</div>
+</label>
+<style>
+	input.color:checked ~ div .material-icons{
+		visibility: visible !important;
+	}
+</style>
